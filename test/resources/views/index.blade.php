@@ -54,39 +54,47 @@
                 <h4 class="modal-title" id="modelHeading"></h4>
             </div>
             <div class="modal-body">
+            <div class="alert alert-danger print-error-msg" style="display:none">
+                   <ul></ul>
+            </div>
                 <form id="productForm" name="productForm" class="form-horizontal" enctype='multipart/form-data'>
                    <input type="hidden" name="blog_id" id="blog_id">
                     <div class="form-group">
                         <label for="name" class="col-sm-2 control-label">Title</label>
                         <div class="col-sm-12">
-                            <input type="text" class="form-control" id="name" name="title" placeholder="Enter title" value="" maxlength="50" required="">
+                            <input type="text" class="form-control" id="name" name="title" placeholder="Enter title" value="" maxlength="50" required>
+                            <span class="text-danger" id="nameError"></span>
                         </div>
+                        
                     </div>
      
                     <div class="form-group">
                         <label class="col-sm-2 control-label">Description</label>
                         <div class="col-sm-12">
-                            <textarea id="description" name="description" required="" placeholder="Enter Description" class="form-control"></textarea>
+                            <textarea id="description" name="description" required="" placeholder="Enter Description" class="form-control" required></textarea>
+                            <span class="text-danger" id="descError"></span>
                         </div>
                     </div>
                     <div class="form-group">
                         <label class="col-sm-2 control-label">Start Date</label>
                         <div class="col-sm-12">
-                            <input type='date' id="start_date" name="start_date" required=""  class="form-control" >
+                            <input type='date' id="start_date" name="start_date" required  class="form-control" >
+                            <span class="text-danger" id="startError"></span>
                         </div>
                     </div>
                     <div class="form-group">
                         <label class="col-sm-2 control-label">End Date</label>
                         <div class="col-sm-12">
-                            <input type='date' id="end_date" name="end_date" required=""  class="form-control" >
+                            <input type='date' id="end_date" name="end_date" required  class="form-control" >
                         </div>
                     </div>
                    
                         <label class="col-sm-2 control-label"> Image </label>
                         <div class="col-sm-12">
-                            <input type='file' id="image" name="image">
+                            <input type='file' id="image" name="image" required>
+                            <span class="text-danger" id="imageError"></span>
                         </div>
-                    
+                    <lable >Status</label>
                     <select name="is_active" id="cars">
                                 <option value="0">Inactive</option>
                                 <option value="1">Active</option>
@@ -163,9 +171,12 @@
               table.draw();
          
           },
-          error: function (data) {
-              console.log('Error:', data);
-              $('#saveBtn').html('Save Changes');
+          error: function (response) {
+            $('#titleError').text(response.responseJSON.errors.name);
+              $('#descError').text(response.responseJSON.errors.email);
+             $('#startError').text(response.responseJSON.errors.subject);
+             $('#imageError').text(response.responseJSON.errors.mobile_number);
+                
           }
       });
     });
@@ -186,6 +197,9 @@
             }
         });
     });
+    function printErrorMsg (msg) {
+            
+    }
      
   });
 </script>

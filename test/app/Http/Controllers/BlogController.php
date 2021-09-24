@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 
 use DataTables;
 use Illuminate\Support\Facades\Auth;
+use Validator;
 
 
         
@@ -64,12 +65,14 @@ class BlogController extends Controller
      */
     public function store(Request $request)
 
-    {   $request->validate([
-            'title' =>'required',
-            'description' =>'required',
-            'start_date'      => 'required|date|before:end_date',
-            'end_date'        => 'date|after:start_date',
-       ]);
+    {   $validator = Validator::make($request->all(), [
+        'title' =>'required',
+        'description' =>'required',
+        'start_date'      => 'required|date|before:end_date',
+        'end_date'        => 'date|after:start_date',
+
+         ]);
+         
          $user_id=Auth::user()->id;
         $image = $request->file('image');
         $name = time().'.'.$image->getClientOriginalExtension();
